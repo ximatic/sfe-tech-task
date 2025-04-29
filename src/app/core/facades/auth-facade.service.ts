@@ -19,6 +19,7 @@ export class AuthFacadeService {
 
   login(username: string, password: string): Observable<boolean> {
     this.store.setProcessing(true);
+
     return this.service.login(username, password).pipe(
       map((response: AuthResponse) => {
         if (response.token && response.user) {
@@ -56,6 +57,7 @@ export class AuthFacadeService {
 
   logout(): Observable<object> {
     this.store.setProcessing(true);
+
     return this.service.logout().pipe(
       tap(() => {
         this.store.clearToken();
@@ -69,6 +71,7 @@ export class AuthFacadeService {
 
   verify(): Observable<boolean> {
     this.store.setProcessing(true);
+
     return this.service.verify().pipe(
       map((response: AuthResponse) => {
         if (response.token && response.user) {

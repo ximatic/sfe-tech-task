@@ -10,7 +10,7 @@ import { Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { MatButton } from '@angular/material/button';
-import { MatCard } from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 
 import { AuthFacadeService } from '../../../core/facades/auth-facade.service';
@@ -25,7 +25,7 @@ import { AuthFacadeService } from '../../../core/facades/auth-facade.service';
     RouterModule,
     // 3rd party imports
     MatButton,
-    MatCard,
+    MatCardModule,
     MatFormField,
     MatInput,
     MatLabel,
@@ -45,6 +45,7 @@ export class LoginPageComponent implements OnDestroy {
   });
 
   // other
+
   private subscription = new Subscription();
 
   // lifecycle methods
@@ -73,7 +74,7 @@ export class LoginPageComponent implements OnDestroy {
     this.login();
   }
 
-  private login() {
+  private login(): void {
     const username = this.usernameControl?.value || '';
     const password = this.passwordControl?.value || '';
 

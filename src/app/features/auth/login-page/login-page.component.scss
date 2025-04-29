@@ -1,20 +1,24 @@
 .login-card {
   max-width: 400px;
-  margin: 5rem auto;
-  padding: 2rem;
+  margin: 4rem auto;
+  padding: 1rem;
+
+  &__header {
+    padding: 1rem;
+  }
 }
 
 mat-form-field {
   width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  color: var(--mat-sys-error);
+  margin: 0;
 }
 
 button {
   width: 100%;
-  margin-top: 1rem;
-}
-
-p {
-  color: red;
   margin-top: 1rem;
 }

@@ -1,28 +1,31 @@
 <mat-card class="login-card">
-  <form [formGroup]="form" (ngSubmit)="submitForm()">
-    <h2>Login</h2>
+  <mat-card-header class="login-card__header">
+    <mat-card-title>Login</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="submitForm()">
+      <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" />
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Username</mat-label>
-      <input matInput formControlName="username" />
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" />
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Password</mat-label>
-      <input matInput type="password" formControlName="password" />
-    </mat-form-field>
+      @if (facade.error()) {
+      <p>{{ facade.error() }}</p>
+      }
 
-    <button
-      mat-raised-button
-      color="primary"
-      type="submit"
-      [disabled]="form.invalid || facade.processing()"
-    >
-      Login
-    </button>
-
-    @if (facade.error()) {
-    <p>{{ facade.error() }}</p>
-    }
-  </form>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid || facade.processing()"
+      >
+        Login
+      </button>
+    </form>
+  </mat-card-content>
 </mat-card>
