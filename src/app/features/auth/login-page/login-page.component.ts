@@ -1,35 +1,90 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
-import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
-import { MatCard } from '@angular/material/card';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../../core/services/auth.service';
-import { Router } from '@angular/router';
+import { Component, inject, OnDestroy } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+
+import { Subscription } from 'rxjs';
+
 import { MatButton } from '@angular/material/button';
+import { MatCard } from '@angular/material/card';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+
+import { AuthFacadeService } from '../../../core/facades/auth-facade.service';
 
 @Component({
   selector: 'app-login-page',
+  templateUrl: './login-page.component.html',
+  styleUrl: './login-page.component.scss',
   imports: [
+    // Angular imports
+    ReactiveFormsModule,
+    RouterModule,
+    // 3rd party imports
+    MatButton,
+    MatCard,
     MatFormField,
     MatInput,
     MatLabel,
-    MatFormField,
-    MatCard,
-    ReactiveFormsModule,
-    MatButton
   ],
-  templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.scss'
 })
-export class LoginPageComponent {
-  private fb: FormBuilder = inject(FormBuilder);
+export class LoginPageComponent implements OnDestroy {
+  private formBuilder: FormBuilder = inject(FormBuilder);
+  private router: Router = inject(Router);
 
-  error: WritableSignal<string> = signal('');
+  facade: AuthFacadeService = inject(AuthFacadeService);
 
-  form = this.fb.group({
+  // form
+
+  form = this.formBuilder.group({
     username: ['', Validators.required],
-    password: ['', Validators.required]
+    password: ['', Validators.required],
   });
 
-  submit(): void {
+  // other
+  private subscription = new Subscription();
+
+  // lifecycle methods
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  // controls
+
+  get usernameControl(): AbstractControl | null {
+    return this.form.get('username');
+  }
+
+  get passwordControl(): AbstractControl | null {
+    return this.form.get('password');
+  }
+
+  // form handling
+
+  submitForm(): void {
+    if (this.form.invalid) {
+      return;
+    }
+
+    this.login();
+  }
+
+  private login() {
+    const username = this.usernameControl?.value || '';
+    const password = this.passwordControl?.value || '';
+
+    this.subscription.add(
+      this.facade.login(username, password).subscribe({
+        next: () => {
+          if (this.facade.token()) {
+            this.router.navigate(['/users']);
+          }
+        },
+      })
+    );
   }
 }

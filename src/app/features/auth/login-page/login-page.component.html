@@ -1,23 +1,28 @@
 <mat-card class="login-card">
-  <form [formGroup]="form" (ngSubmit)="submit()">
+  <form [formGroup]="form" (ngSubmit)="submitForm()">
     <h2>Login</h2>
 
     <mat-form-field appearance="fill">
       <mat-label>Username</mat-label>
-      <input matInput formControlName="username"/>
+      <input matInput formControlName="username" />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Password</mat-label>
-      <input matInput type="password" formControlName="password"/>
+      <input matInput type="password" formControlName="password" />
     </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid || facade.processing()"
+    >
       Login
     </button>
 
-    @if (error()) {
-      <p>{{ error() }}</p>
+    @if (facade.error()) {
+    <p>{{ facade.error() }}</p>
     }
   </form>
 </mat-card>

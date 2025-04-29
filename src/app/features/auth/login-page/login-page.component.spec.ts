@@ -8,16 +8,18 @@ describe('LoginPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginPageComponent]
-    })
-    .compileComponents();
+      imports: [LoginPageComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LoginPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
+
+  // TODO #1 - fix tests
+  // TODO #2 - add more tests
 });
