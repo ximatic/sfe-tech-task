@@ -79,7 +79,7 @@ export class AuthFacadeService {
 
           return true;
         } else {
-          this.store.setError('Verification failed.');
+          this.store.setError('');
           this.store.setProcessing(false);
 
           return false;
