@@ -1,11 +1,20 @@
-<h2>Users</h2>
-<button mat-raised-button color="primary" (click)="goToNew()">Add User</button>
-
-@if (!facade.loading()) {
-  <app-users-list
-    [users]="facade.users()"
-    (edit)="goToEdit($event)"
-  />
-} @else {
-  <p>Loading...</p>
-}
+<mat-card class="card users-card">
+  <mat-card-header class="card__header">
+    <mat-card-title>
+      <span>Users</span>
+    </mat-card-title>
+    @if (authFacade.isAdminRole()) {
+    <span class="flex-spacer"></span>
+    <button mat-icon-button aria-label="Open New User form" (click)="goToNew()">
+      <mat-icon>add</mat-icon>
+    </button>
+    }
+  </mat-card-header>
+  <mat-card-content>
+    @if (!userFacade.loading()) {
+    <app-users-list [users]="userFacade.users()" (edit)="goToEdit($event)" />
+    } @else {
+    <p>Loading...</p>
+    }
+  </mat-card-content>
+</mat-card>

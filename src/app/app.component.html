@@ -1,7 +1,7 @@
 <nav>
   <mat-toolbar>
     <span>SFE Tech Task</span>
-    @if (facade.token()) {
+    @if (authFacade.token()) {
     <span class="flex-spacer"></span>
     <button mat-icon-button aria-label="Logout button" (click)="logout()">
       <mat-icon>logout</mat-icon>

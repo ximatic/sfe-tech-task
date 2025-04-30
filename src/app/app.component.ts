@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AuthFacadeService } from './core/facades/auth-facade.service';
+import { UsersFacadeService } from './core/facades/users-facade.service';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,8 @@ import { AuthFacadeService } from './core/facades/auth-facade.service';
 export class AppComponent implements OnDestroy {
   private router: Router = inject(Router);
 
-  facade: AuthFacadeService = inject(AuthFacadeService);
+  authFacade: AuthFacadeService = inject(AuthFacadeService);
+  userFacade: UsersFacadeService = inject(UsersFacadeService);
 
   // other
 
@@ -39,7 +41,8 @@ export class AppComponent implements OnDestroy {
 
   logout(): void {
     this.subscription.add(
-      this.facade.logout().subscribe(() => {
+      this.authFacade.logout().subscribe(() => {
+        this.userFacade.clear();
         this.router.navigate(['/auth']);
       })
     );

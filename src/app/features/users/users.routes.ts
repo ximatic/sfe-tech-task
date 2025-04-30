@@ -28,4 +28,8 @@ export const USERS_ROUTES: Routes = [
         (c) => c.UserFormPageComponent
       ),
   },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];

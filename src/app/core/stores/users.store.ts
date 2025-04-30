@@ -8,12 +8,20 @@ export class UserStore {
   loading = signal(false);
   error = signal('');
 
-  setUsers(newUsers: User[]) {
-    this.users.set(newUsers);
+  setUsers(users: User[]) {
+    this.users.set(users);
   }
 
-  setUser(newUser: User) {
-    this.user.set(newUser);
+  clearUsers(): void {
+    this.users.set([]);
+  }
+
+  setUser(user: User) {
+    this.user.set(user);
+  }
+
+  clearUser(): void {
+    this.user.set(null);
   }
 
   setLoading(value: boolean) {
@@ -26,7 +34,7 @@ export class UserStore {
 
   upsertUser(user: User) {
     const current = this.users();
-    const index = current.findIndex(u => u.id === user.id);
+    const index = current.findIndex((u: User) => u.id === user.id);
     if (index === -1) {
       this.users.set([...current, user]);
     } else {

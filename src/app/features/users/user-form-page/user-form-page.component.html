@@ -1,11 +1,14 @@
-<h2>{{ user()?.id ? 'Edit' : 'Create' }} User</h2>
-
-@if (!loading()) {
-  <app-user-form
-    [user]="user()"
-    (save)="handleSave($event)"
-    (cancel)="goBack()"
-  />
-} @else {
-  <p>Loading...</p>
-}
+<mat-card class="card user-card">
+  <mat-card-header class="card__header">
+    <mat-card-title>
+      <span>{{ facade.user()?.id ? "Edit" : "Create" }} User</span>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <app-user-form
+      [user]="facade.user()"
+      (save)="handleSave($event)"
+      (cancel)="goBack()"
+    />
+  </mat-card-content>
+</mat-card>
