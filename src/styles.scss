@@ -12,3 +12,16 @@ body {
 .flex-spacer {
   flex: 1 1 auto;
 }
+
+.card {
+  padding: 1rem;
+
+  &__header {
+    padding: 1rem !important;
+  }
+}
+
+.error-message {
+  color: var(--mat-sys-error);
+  margin: 0;
+}

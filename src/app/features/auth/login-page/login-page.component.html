@@ -1,5 +1,5 @@
-<mat-card class="login-card">
-  <mat-card-header class="login-card__header">
+<mat-card class="card login-card">
+  <mat-card-header class="card__header">
     <mat-card-title>Login</mat-card-title>
   </mat-card-header>
   <mat-card-content>
@@ -15,7 +15,7 @@
       </mat-form-field>
 
       @if (facade.error()) {
-      <p>{{ facade.error() }}</p>
+      <p class="error-message">{{ facade.error() }}</p>
       }
 
       <button
