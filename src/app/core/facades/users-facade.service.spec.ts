@@ -162,6 +162,8 @@ describe('UsersFacadeService', () => {
         .spyOn(service, 'editUser')
         .mockReturnValueOnce(of(mockData));
 
+      store.setUsers([MOCK_USER_1]);
+
       let facadeResponse!: boolean;
 
       facade

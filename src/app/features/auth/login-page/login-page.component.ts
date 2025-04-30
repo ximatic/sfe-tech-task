@@ -73,17 +73,19 @@ export class LoginPageComponent implements OnDestroy {
   }
 
   private login(): void {
-    const username = this.usernameControl?.value || '';
-    const password = this.passwordControl?.value || '';
+    const username = this.usernameControl?.value;
+    const password = this.passwordControl?.value;
 
-    this.subscription.add(
-      this.facade.login(username, password).subscribe({
-        next: () => {
-          if (this.facade.token()) {
-            this.router.navigate(['/users']);
-          }
-        },
-      })
-    );
+    if (username && password) {
+      this.subscription.add(
+        this.facade.login(username, password).subscribe({
+          next: () => {
+            if (this.facade.token()) {
+              this.router.navigate(['/users']);
+            }
+          },
+        })
+      );
+    }
   }
 }

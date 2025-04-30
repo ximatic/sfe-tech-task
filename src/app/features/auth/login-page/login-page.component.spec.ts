@@ -108,7 +108,4 @@ describe('LoginPageComponent', () => {
       expect(navigateSpy).toHaveBeenCalledTimes(0);
     }));
   });
-
-  // TODO #1 - fix tests
-  // TODO #2 - add more tests
 });

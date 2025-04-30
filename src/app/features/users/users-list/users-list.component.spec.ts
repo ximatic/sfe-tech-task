@@ -5,24 +5,26 @@ import { provideRouter } from '@angular/router';
 
 import { AuthFacadeService } from '../../../core/facades/auth-facade.service';
 
-import { routes } from '../../../app.routes';
-
 import { UsersListComponent } from './users-list.component';
 
 describe('UsersListComponent', () => {
   let component: UsersListComponent;
   let fixture: ComponentFixture<UsersListComponent>;
 
+  let authFacadeService: AuthFacadeService;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UsersListComponent],
       providers: [
-        provideRouter(routes),
+        provideRouter([]),
         provideHttpClient(),
         provideHttpClientTesting(),
         AuthFacadeService,
       ],
     }).compileComponents();
+
+    authFacadeService = TestBed.inject(AuthFacadeService);
   });
 
   beforeEach(() => {
@@ -31,6 +33,25 @@ describe('UsersListComponent', () => {
   });
 
   it('should create', () => {
+    fixture = TestBed.createComponent(UsersListComponent);
+    component = fixture.componentInstance;
+
     expect(component).toBeTruthy();
+  });
+
+  it('should show "actions" column for Admin user', () => {
+    jest.spyOn(authFacadeService, 'isAdminRole').mockReturnValue(true);
+
+    fixture.detectChanges();
+
+    expect(component.displayedColumns).toEqual(['username', 'role', 'actions']);
+  });
+
+  it('should not show "actions" column for Admin user', () => {
+    jest.spyOn(authFacadeService, 'isAdminRole').mockReturnValue(false);
+
+    fixture.detectChanges();
+
+    expect(component.displayedColumns).toEqual(['username', 'role']);
   });
 });

@@ -2,6 +2,7 @@ import {
   Component,
   inject,
   input,
+  OnInit,
   output,
   OutputEmitterRef,
 } from '@angular/core';
@@ -20,7 +21,7 @@ import { User } from '../../../shared/models/user';
   styleUrl: './users-list.component.scss',
   imports: [MatButtonModule, MatIconModule, MatTableModule],
 })
-export class UsersListComponent {
+export class UsersListComponent implements OnInit {
   // di
   private authFacade: AuthFacadeService = inject(AuthFacadeService);
 
@@ -31,7 +32,7 @@ export class UsersListComponent {
   // table
   displayedColumns: string[] = ['username', 'role'];
 
-  constructor() {
+  ngOnInit(): void {
     if (this.authFacade.isAdminRole()) {
       // add actions column only if user has Admin role
       this.displayedColumns.push('actions');
