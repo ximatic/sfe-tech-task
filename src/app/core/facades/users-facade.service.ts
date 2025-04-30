@@ -29,7 +29,9 @@ export class UsersFacadeService {
         this.store.setLoading(false);
       },
       error: () => {
-        this.store.setError('Failed to load users');
+        this.store.setError(
+          'Failed to load users. Please try again or contact with administrator.'
+        );
         this.store.setLoading(false);
       },
     });
