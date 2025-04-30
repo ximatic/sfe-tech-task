@@ -24,13 +24,12 @@ import { UsersFacadeService } from './core/facades/users-facade.service';
   ],
 })
 export class AppComponent implements OnDestroy {
+  // di
   private router: Router = inject(Router);
-
   authFacade: AuthFacadeService = inject(AuthFacadeService);
   userFacade: UsersFacadeService = inject(UsersFacadeService);
 
   // other
-
   private subscription = new Subscription();
 
   // lifecycle methods
@@ -38,6 +37,8 @@ export class AppComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
+  // navigation methods
 
   logout(): void {
     this.subscription.add(

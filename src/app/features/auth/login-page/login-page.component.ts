@@ -32,20 +32,18 @@ import { AuthFacadeService } from '../../../core/facades/auth-facade.service';
   ],
 })
 export class LoginPageComponent implements OnDestroy {
+  // di
   private formBuilder: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
-
   facade: AuthFacadeService = inject(AuthFacadeService);
 
   // form
-
   form = this.formBuilder.group({
     username: ['', Validators.required],
     password: ['', Validators.required],
   });
 
   // other
-
   private subscription = new Subscription();
 
   // lifecycle methods
