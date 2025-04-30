@@ -1,9 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 
-import { AuthStore } from '../stores/auth.store';
-import { AuthService } from '../services/auth.service';
-import { AuthResponse } from '../../shared/models/auth';
 import { catchError, map, Observable, of, tap } from 'rxjs';
+
+import { AuthStore } from '../stores/auth.store';
+
+import { AuthService } from '../services/auth.service';
+
+import { AuthResponse } from '../../shared/models/auth';
+import { UserRole } from '../../shared/models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -89,5 +93,9 @@ export class AuthFacadeService {
         }
       })
     );
+  }
+
+  isAdminRole(): boolean {
+    return this.authUser()?.role === UserRole.Admin;
   }
 }

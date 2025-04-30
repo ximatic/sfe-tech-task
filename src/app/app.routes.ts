@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { AuthGuard } from './core/guards/auth.guard';
+import { AuthTokenGuard } from './core/guards/auth-token.guard';
 
 import { USERS_PATH } from './features/users/users.routes';
 
@@ -19,7 +19,7 @@ export const routes: Routes = [
   },
   {
     path: USERS_PATH,
-    canActivate: [AuthGuard],
+    canActivate: [AuthTokenGuard],
     loadChildren: () =>
       import('./features/users/users.routes').then((r) => r.USERS_ROUTES),
   },
