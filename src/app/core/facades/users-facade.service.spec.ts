@@ -82,7 +82,7 @@ describe('UsersFacadeService', () => {
 
       expect(spyGetUsers).toHaveBeenCalled();
       expect(spySetLoading).toHaveBeenCalledTimes(2);
-      expect(spyClearUser).toHaveBeenCalledTimes(0);
+      expect(spyClearUser).toHaveBeenCalled();
 
       expect(store.users()).toEqual([]);
       expect(store.user()).toEqual(null);

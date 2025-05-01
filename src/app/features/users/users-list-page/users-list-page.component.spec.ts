@@ -69,6 +69,6 @@ describe('UsersListPageComponent', () => {
 
     component.goToEdit(MOCK_USER_ID_1);
 
-    expect(spyNavigate).toHaveBeenCalledWith(['/users', MOCK_USER_ID_1]);
+    expect(spyNavigate).toHaveBeenCalledWith(['/users/update', MOCK_USER_ID_1]);
   });
 });

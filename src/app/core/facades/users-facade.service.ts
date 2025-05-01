@@ -20,10 +20,10 @@ export class UsersFacadeService {
 
   loadUsers(): void {
     this.store.setLoading(true);
+    this.store.clearUser();
 
     this.service.getUsers().subscribe({
       next: (users: User[]) => {
-        this.store.clearUser();
         this.store.setUsers(users);
         this.store.setError('');
         this.store.setLoading(false);

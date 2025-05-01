@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AuthFacadeService } from '../../../core/facades/auth-facade.service';
 import { UsersFacadeService } from '../../../core/facades/users-facade.service';
@@ -19,6 +20,7 @@ import { UsersListComponent } from '../users-list/users-list.component';
     MatButtonModule,
     MatCardModule,
     MatIconModule,
+    MatProgressSpinnerModule,
     // other
     UsersListComponent,
   ],
@@ -42,6 +44,6 @@ export class UsersListPageComponent implements OnInit {
   }
 
   goToEdit(id: number): void {
-    this.router.navigate(['/users', id]);
+    this.router.navigate(['/users/update', id]);
   }
 }

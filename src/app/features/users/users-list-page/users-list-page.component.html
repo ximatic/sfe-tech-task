@@ -11,10 +11,14 @@
     }
   </mat-card-header>
   <mat-card-content>
-    @if (!userFacade.loading()) {
-    <app-users-list [users]="userFacade.users()" (edit)="goToEdit($event)" />
+    @if (!userFacade.loading()) { @if (userFacade.error()) {
+    <p class="error-message">{{ userFacade.error() }}</p>
     } @else {
-    <p>Loading...</p>
+    <app-users-list [users]="userFacade.users()" (edit)="goToEdit($event)" />
+    } } @else {
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
     }
   </mat-card-content>
 </mat-card>

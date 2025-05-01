@@ -21,7 +21,7 @@ export const USERS_ROUTES: Routes = [
       ),
   },
   {
-    path: ':id',
+    path: 'update/:id',
     canActivate: [AuthRoleGuard],
     loadComponent: () =>
       import('./user-form-page/user-form-page.component').then(
