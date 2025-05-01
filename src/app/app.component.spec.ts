@@ -13,12 +13,15 @@ import { UsersFacadeService } from './core/facades/users-facade.service';
 import { routes } from './app.routes';
 
 import { AppComponent } from './app.component';
+import { DOCUMENT } from '@angular/common';
+import { InjectionToken } from '@angular/core';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
   let router: Router;
+  let document: Document;
   let authFacadeService: AuthFacadeService;
   let usersFacadeService: UsersFacadeService;
 
@@ -34,6 +37,7 @@ describe('AppComponent', () => {
     }).compileComponents();
 
     router = TestBed.inject(Router);
+    document = TestBed.inject(DOCUMENT);
     authFacadeService = TestBed.inject(AuthFacadeService);
     usersFacadeService = TestBed.inject(UsersFacadeService);
   });
@@ -45,6 +49,18 @@ describe('AppComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  // toggle theme
+
+  it('toggling theme works', () => {
+    fixture.detectChanges();
+
+    expect(document.body.classList.contains('light-theme')).toBeFalsy();
+    component.toggleTheme();
+    expect(document.body.classList.contains('light-theme')).toBeTruthy();
+    component.toggleTheme();
+    expect(document.body.classList.contains('light-theme')).toBeFalsy();
   });
 
   // logout

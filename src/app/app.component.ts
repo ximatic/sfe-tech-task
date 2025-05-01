@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import { Component, inject, OnDestroy } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
@@ -26,6 +27,7 @@ import { UsersFacadeService } from './core/facades/users-facade.service';
 export class AppComponent implements OnDestroy {
   // di
   private router: Router = inject(Router);
+  private document = inject(DOCUMENT);
   authFacade: AuthFacadeService = inject(AuthFacadeService);
   userFacade: UsersFacadeService = inject(UsersFacadeService);
 
@@ -39,6 +41,10 @@ export class AppComponent implements OnDestroy {
   }
 
   // navigation methods
+
+  toggleTheme(): void {
+    this.document.body.classList.toggle('light-theme');
+  }
 
   logout(): void {
     this.subscription.add(
