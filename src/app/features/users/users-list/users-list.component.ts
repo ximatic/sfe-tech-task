@@ -26,11 +26,11 @@ export class UsersListComponent implements OnInit {
   private authFacade: AuthFacadeService = inject(AuthFacadeService);
 
   // inputs & outputs
-  users = input<User[]>([]);
+  users = input<User[] | null>([]);
   edit: OutputEmitterRef<number> = output();
 
   // table
-  displayedColumns: string[] = ['username', 'role'];
+  displayedColumns: string[] = ['index', 'username', 'role'];
 
   ngOnInit(): void {
     if (this.authFacade.isAdminRole()) {

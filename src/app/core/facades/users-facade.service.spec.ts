@@ -69,6 +69,28 @@ describe('UsersFacadeService', () => {
       expect(store.loading()).toEqual(false);
     }));
 
+    it('loading users works and sets current user', fakeAsync(() => {
+      const mockData: User[] = [MOCK_USER_1, MOCK_USER_2];
+      const spyGetUsers = jest
+        .spyOn(service, 'getUsers')
+        .mockReturnValueOnce(of(mockData));
+      const spySetLoading = jest.spyOn(store, 'setLoading');
+      const spyClearUser = jest.spyOn(store, 'clearUser');
+
+      facade.loadUsers(MOCK_USER_1.id);
+
+      tick();
+
+      expect(spyGetUsers).toHaveBeenCalled();
+      expect(spySetLoading).toHaveBeenCalledTimes(2);
+      expect(spyClearUser).toHaveBeenCalled();
+
+      expect(store.users()).toEqual(mockData);
+      expect(store.user()).toEqual(MOCK_USER_1);
+      expect(store.error()).toEqual('');
+      expect(store.loading()).toEqual(false);
+    }));
+
     it('loading users throws error', fakeAsync(() => {
       const spyGetUsers = jest
         .spyOn(service, 'getUsers')
@@ -84,10 +106,33 @@ describe('UsersFacadeService', () => {
       expect(spySetLoading).toHaveBeenCalledTimes(2);
       expect(spyClearUser).toHaveBeenCalled();
 
-      expect(store.users()).toEqual([]);
+      expect(store.users()).toEqual(null);
       expect(store.user()).toEqual(null);
       expect(store.error()).toEqual(
         'Failed to load users. Please try again or contact with administrator.'
+      );
+      expect(store.loading()).toEqual(false);
+    }));
+
+    it('loading users throws error when setting current user', fakeAsync(() => {
+      const spyGetUsers = jest
+        .spyOn(service, 'getUsers')
+        .mockReturnValue(throwError(() => new Error()));
+      const spySetLoading = jest.spyOn(store, 'setLoading');
+      const spyClearUser = jest.spyOn(store, 'clearUser');
+
+      facade.loadUsers(MOCK_USER_1.id);
+
+      tick();
+
+      expect(spyGetUsers).toHaveBeenCalled();
+      expect(spySetLoading).toHaveBeenCalledTimes(2);
+      expect(spyClearUser).toHaveBeenCalled();
+
+      expect(store.users()).toEqual(null);
+      expect(store.user()).toEqual(null);
+      expect(store.error()).toEqual(
+        'Failed to load existing user. Please try again or contact with administrator.'
       );
       expect(store.loading()).toEqual(false);
     }));
@@ -126,7 +171,7 @@ describe('UsersFacadeService', () => {
   });
 
   describe('saveUser', () => {
-    it('saving new user works', fakeAsync(() => {
+    it('saving new user on empty users list works', fakeAsync(() => {
       const mockData: User = MOCK_USER_1;
       const spyUpsertUser = jest.spyOn(store, 'upsertUser');
       const spySetLoading = jest.spyOn(store, 'setLoading');
@@ -150,6 +195,36 @@ describe('UsersFacadeService', () => {
 
       expect(facadeResponse).toEqual(true);
       expect(store.users()).toEqual([MOCK_USER_1]);
+      expect(store.user()).toEqual(null);
+      expect(store.error()).toEqual('');
+    }));
+
+    it('saving new user on non empty users list works', fakeAsync(() => {
+      const mockData: User = MOCK_USER_1;
+      const spyUpsertUser = jest.spyOn(store, 'upsertUser');
+      const spySetLoading = jest.spyOn(store, 'setLoading');
+      const spyAddUser = jest
+        .spyOn(service, 'addUser')
+        .mockReturnValueOnce(of(mockData));
+
+      store.setUsers([MOCK_USER_2]);
+
+      let facadeResponse!: boolean;
+
+      facade
+        .saveUser({ ...MOCK_USER_1, id: 0, password: MOCK_PASSWORD_1 })
+        .subscribe((result: boolean) => {
+          facadeResponse = result;
+        });
+
+      tick();
+
+      expect(spyAddUser).toHaveBeenCalled();
+      expect(spyUpsertUser).toHaveBeenCalled();
+      expect(spySetLoading).toHaveBeenCalledTimes(2);
+
+      expect(facadeResponse).toEqual(true);
+      expect(store.users()).toEqual([MOCK_USER_2, MOCK_USER_1]);
       expect(store.user()).toEqual(null);
       expect(store.error()).toEqual('');
     }));
@@ -208,7 +283,7 @@ describe('UsersFacadeService', () => {
       expect(spySetLoading).toHaveBeenCalledTimes(2);
 
       expect(facadeResponse).toEqual(false);
-      expect(store.users()).toEqual([]);
+      expect(store.users()).toEqual(null);
       expect(store.user()).toEqual(null);
       expect(store.error()).toEqual(
         'Username must be unique. Please try again or contact with administrator.'
@@ -237,7 +312,7 @@ describe('UsersFacadeService', () => {
       expect(spySetLoading).toHaveBeenCalledTimes(2);
 
       expect(facadeResponse).toEqual(false);
-      expect(store.users()).toEqual([]);
+      expect(store.users()).toEqual(null);
       expect(store.user()).toEqual(null);
       expect(store.error()).toEqual(
         'Failed to save user. Please try again or contact with administrator.'
@@ -249,7 +324,7 @@ describe('UsersFacadeService', () => {
     it('clearing store works', () => {
       facade.clear();
 
-      expect(store.users()).toEqual([]);
+      expect(store.users()).toEqual(null);
       expect(store.user()).toEqual(null);
       expect(store.error()).toEqual('');
       expect(store.loading()).toEqual(false);

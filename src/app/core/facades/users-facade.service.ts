@@ -18,27 +18,44 @@ export class UsersFacadeService {
   loading = this.store.loading.asReadonly();
   error = this.store.error.asReadonly();
 
-  loadUsers(): void {
+  loadUsers(id?: number): void {
     this.store.setLoading(true);
     this.store.clearUser();
 
     this.service.getUsers().subscribe({
       next: (users: User[]) => {
         this.store.setUsers(users);
-        this.store.setError('');
+        if (id) {
+          this.loadUser(id);
+        } else {
+          this.store.setError('');
+        }
         this.store.setLoading(false);
       },
       error: () => {
-        this.store.setError(
-          'Failed to load users. Please try again or contact with administrator.'
-        );
+        if (id) {
+          this.store.setError(
+            'Failed to load existing user. Please try again or contact with administrator.'
+          );
+        } else {
+          this.store.setError(
+            'Failed to load users. Please try again or contact with administrator.'
+          );
+        }
         this.store.setLoading(false);
       },
     });
   }
 
   loadUser(id: number): void {
-    const user = this.store.users().find((u: User) => u.id == id);
+    const currentUsers = this.store.users();
+    if (!currentUsers) {
+      // load users first
+      this.loadUsers(id);
+      return;
+    }
+
+    const user = currentUsers.find((u: User) => u.id == id);
     if (user) {
       this.store.setError('');
       this.store.setUser(user);

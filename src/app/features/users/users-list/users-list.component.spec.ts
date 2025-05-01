@@ -44,7 +44,12 @@ describe('UsersListComponent', () => {
 
     fixture.detectChanges();
 
-    expect(component.displayedColumns).toEqual(['username', 'role', 'actions']);
+    expect(component.displayedColumns).toEqual([
+      'index',
+      'username',
+      'role',
+      'actions',
+    ]);
   });
 
   it('should not show "actions" column for Admin user', () => {
@@ -52,6 +57,6 @@ describe('UsersListComponent', () => {
 
     fixture.detectChanges();
 
-    expect(component.displayedColumns).toEqual(['username', 'role']);
+    expect(component.displayedColumns).toEqual(['index', 'username', 'role']);
   });
 });
