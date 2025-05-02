@@ -1,4 +1,5 @@
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandlerFn,
   HttpInterceptorFn,
@@ -6,9 +7,11 @@ import {
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { AuthFacadeService } from '../facades/auth-facade.service';
+import { UsersFacadeService } from '../facades/users-facade.service';
+import { Router } from '@angular/router';
 
 interface ExcludedUrl {
   url: string;
@@ -38,7 +41,10 @@ export const authInterceptor: HttpInterceptorFn = (
     return next(request);
   }
 
-  const token = inject(AuthFacadeService).token();
+  const router = inject(Router);
+  const authFacade = inject(AuthFacadeService);
+  const userFacade = inject(UsersFacadeService);
+  const token = authFacade.token();
 
   if (token) {
     request = request.clone({
@@ -46,5 +52,17 @@ export const authInterceptor: HttpInterceptorFn = (
     });
   }
 
-  return next(request);
+  return next(request).pipe(
+    tap(
+      () => {},
+      (error) => {
+        if (error instanceof HttpErrorResponse && error.status === 401) {
+          authFacade.logout().subscribe(() => {
+            userFacade.clear();
+            router.navigate(['/auth']);
+          });
+        }
+      }
+    )
+  );
 };
