@@ -4,6 +4,35 @@ Welcome! This project is a small Angular-based application designed to assess yo
 
 ---
 
+## Solution description
+
+### Changes to exisiting solution
+
+- Replace `/users/:id` route with `/users/update/:id` to avoid issues with certain User Id (e.g. `create`) which technically could be possible
+- Replace Karma/Jasmine with Jest - personally I prefer Jest for unit tests in Angular
+- Improve UI to fully use Angular Material Magenta/Violet color scheme
+- Add optional call to `/users` endpoint when editing exisiting user - without it, form could be filled with data only if users list were visited previously. For better solution, backend endpoint to get single user data should be created.
+- Add toggle theme mechanism to provide better UX
+
+### TODOs
+
+In current section you will find information what else could be done to have application "by the book"
+
+#### Frontend
+
+- Add `lint` and `prettier` to provide better code quality and standards - it's not added to the task as thos could overshadow "real" changes to the solution
+- Add translation support (e.g. `ngx-translate`) - even with ont language it would be beneficial as adding extra language(s) in the future would be trivial
+- Add E2E tests
+- Add password complexity verification - in current case it's not needed (as no logic in the backend) but could be usefull in the future
+- Use widely used state management library (e.g. `ngrx`) - it would simplify understanding the code for future developers
+
+#### Backend
+
+- Add validation for unique and "test" containing username for `/:id` PUT endpoint - currently it allows such usernames
+- Create `/:id` GET endpoint to get user information - it would simplify logic in the frontend
+
+---
+
 ## ⚙️ Setup Instructions
 
 ### 1. Clone the repository
@@ -103,4 +132,3 @@ These are optional but will showcase advanced skills:
 ---
 
 Good luck! We’re looking forward to seeing how you approach the challenge and what best practices you're going to introduce for us 🚀
-
